@@ -2,11 +2,29 @@
 
 ## Overview
 
-A new product detail page for "Grood Convert" - an e-bike conversion kit that transforms regular bikes into electric bikes. Design inspired by Reebike's Urban kit page, adapted to Grood's aesthetic.
+A new product detail page for "Grood Convert" - an e-bike conversion kit that transforms regular bikes into electric bikes. Design cloned from Reebike's Urban kit page, adapted to Grood's aesthetic.
 
 **Route:** `/convert`
 
 **Reference:** https://reebike.fr/en/products/urban?variant=47854464270670
+
+---
+
+## Detailed UI Analysis (from Playwright Study)
+
+### Color Palette (Reebike → Grood Adaptation)
+| Reebike | Usage | Grood Equivalent |
+|---------|-------|------------------|
+| Sage green `#c5d5c5` | Hero/product backgrounds | `#FEF9E3` (cream/gold tint) |
+| Black `#161514` | CTA buttons, text | `#171717` (existing) |
+| Golden yellow `#f5c518` | Hotspots, accents | `#FFCC00` (existing secondary) |
+| White `#ffffff` | Cards, backgrounds | `#ffffff` |
+
+### Typography (Reebike Style)
+- **Product title:** Large serif-like bold (48-64px)
+- **Section headings:** Bold sans-serif with subtle subtitle
+- **Body text:** Regular sans-serif, muted gray
+- **Price:** Large bold (32-40px)
 
 ---
 
@@ -24,217 +42,308 @@ A new product detail page for "Grood Convert" - an e-bike conversion kit that tr
 | Wheel Sizes | 20", 24", 26", 27.5", 28", 29" |
 | Warranty | 2 years |
 
-### Accessory Upsells
-- Bluetooth LCD Display: +$59
-- Anti-theft Security Bolt: +$29
-- Grood Phone Mount: +$19
+### Accessory Upsells (Checkbox Cards)
+- Bluetooth LCD Display: +$59 (with product image)
+- Anti-theft Security Bolt: +$29 (with product image)
+- Grood Phone Mount: +$19 (with product image)
 
 ---
 
-## Page Sections
+## Page Sections (Exact Clone Mapping)
 
-### Section 1: Hero & Purchase Panel
+### Section 1: Announcement Bar
+- Rotating trust messages: "Free Shipping" ↔ "2-Year Warranty" ↔ "30-Day Returns"
+- Grood golden-yellow background
+- Left/right arrows for manual navigation
 
-**Layout:** Split layout - product image left, purchase panel right (sticky on desktop)
+### Section 2: Hero & Product Gallery
+**Layout:** Two-column (60/40 split)
 
-**Left side:**
-- Full-width hero with gradient overlay (Grood style)
+**Left Column - Product Gallery:**
+- Main product image (large, sage green/cream background)
+- Thumbnail carousel below (8 thumbnails, horizontally scrollable)
+- Trust badges above image: "Made with Care" + "2 Year Warranty" icons
+
+**Right Column - Purchase Panel:**
 - Product title: "Grood Convert"
-- Tagline: "Transform any bike into an e-bike"
-- Main product image (motorized wheel with battery)
-- Key selling badges: "15 min install" | "40km range" | "350W power"
+- Tagline with audio player icon: "Transform any bike into an e-bike"
+- Feature bullets with green checkmarks:
+  - ✓ Transforms your bike into an electric bike
+  - ✓ Installs in 15 min without skills (tools included)
+  - ✓ Compatible with disc and rim brakes
+  - ✓ As efficient as a new e-bike
+  - ✓ 2X cheaper than buying an electric bike
 
-**Right side (sticky purchase panel):**
-- Price: **$299**
-- Wheel size selector (pill buttons): 20" | 24" | 26" | 27.5" | 28" | 29"
-- Accessory upsells with checkboxes:
-  - [ ] Bluetooth LCD Display (+$59)
-  - [ ] Anti-theft Security Bolt (+$29)
-  - [ ] Grood Phone Mount (+$19)
-- Dynamic total price (updates with selections)
-- "Add to Cart" button (golden-yellow accent)
-- Trust badges row: Free Shipping | 2-Year Warranty | 30-Day Returns
+**Wheel Size Selector:**
+- Label: "Select Wheel size:"
+- 6 pill buttons in a row: 20" | 24" | 26" | 27.5" | 28" | 29"
+- Selected state: black fill, white text
+- Default state: white fill, black border
 
----
+**Price Display:**
+- Large bold price: "$299"
 
-### Section 2: Interactive Product Showcase
+**Accessory Upsells:**
+- Label: "Add accessories (optional)"
+- Horizontal scrollable cards with checkboxes:
+  - [ ] [Image] Bluetooth LCD Display - $59
+  - [ ] [Image] Anti-theft Bolt - $29
+  - [ ] [Image] Phone Mount - $19
 
-**Title:** "What's Inside the Kit"
+**Quantity & Add to Cart:**
+- Quantity selector: [-] [1] [+]
+- Full-width black "ADD TO CART" button
+- Stock indicator: "12 in stock" (green text)
 
-**Layout:** Large product image with 4 clickable hotspot dots
+**Collapsible Accordions:**
+- "Technical specifications" [+] (expandable)
+- "Package contents" [+] (expandable)
 
-**Hotspots:**
+### Section 3: Trust Badges Row
+**Layout:** 4-column grid with icons
 
-1. **Battery** (positioned on battery)
-   - Card: "360Wh Battery"
-   - Subtitle: "40km range, 2.5hr charge"
-   - Pills: "1.5kg" | "800 cycles" | "Removable"
+| Icon | Title | Description |
+|------|-------|-------------|
+| Globe/warranty | 2-year warranty | Full coverage on all components |
+| Thumbs up | 30-day returns | Test at home, return if not satisfied |
+| Truck | Free delivery | Within 3-5 business days |
+| Shield/check | Secure payment | Encrypted checkout |
 
-2. **Motor Wheel** (positioned on wheel hub)
-   - Card: "350W Hub Motor"
-   - Subtitle: "Silent power, instant torque"
-   - Pills: "25km/h max" | "5 assist levels" | "Weatherproof"
+**Styling:** Light background, centered text, subtle separator line between badges
 
-3. **Pedal Sensor** (positioned on sensor)
-   - Card: "Smart Pedal Sensor"
-   - Subtitle: "Activates motor based on your pedaling"
-   - Pills: "Instant response" | "Natural feel" | "Easy clip-on"
+### Section 4: Video Showcase
+- Section title: "The best conversion kit" | "Easy to install, discreet, practical"
+- Large video thumbnail with centered play button
+- Soft cream/green background
+- On click: Video modal/popup
 
-4. **Controller & Tools** (positioned on accessories)
-   - Card: "Everything Included"
-   - Subtitle: "Tools, cables, and manual"
-   - Pills: "No skills needed" | "All hardware" | "Video guide"
+### Section 5: Customer Reviews Carousel
+- Section title: "Our customers love it"
+- Horizontal carousel of review cards (4 visible on desktop)
+- Each card:
+  - Large quote mark icon
+  - Review text (truncated)
+  - 5 star rating (golden)
+  - Customer name with verified badge
+- Pagination dots below
+- Auto-scroll with pause on hover
 
-**Interaction:**
-- Click hotspot → card expands, others dim
-- Hotspots: pulsing golden-yellow dots
-- Mobile: horizontal scroll cards below image (no hotspots)
+### Section 6: How It Works
+**Title:** "How does it work?" | "Your e-bike in just 15 minutes"
 
----
+**Layout:** Two-column (40/60)
+- Left: Product image (kit components photo)
+- Right: 4 numbered steps
 
-### Section 3: Before/After Transformation Slider
+**Steps Format:**
+```
+01. Receive your kit at home
+    Delivered within 3-5 days, fully equipped and ready to install
 
-**Title:** "Your Bike, Transformed"
+02. Swap the front wheel
+    Replace your front wheel with the Grood motorized wheel
 
-**Layout:** Full-width comparison slider with draggable handle
+03. Mount the battery
+    Attach the bottle battery to your frame, connect the cable
 
-**Left (Before):**
-- Regular bicycle image
-- "BEFORE" label overlay (top-left)
-- Desaturated/muted treatment
+04. Pair & ride
+    Download the Grood app, connect via Bluetooth, start riding
+```
 
-**Right (After):**
-- Same bike with Grood Convert installed
-- "AFTER" label overlay (top-right)
-- Vibrant colors, subtle glow on motor wheel
+**Styling:**
+- Large numbers (01, 02, etc.) in muted gray
+- Bold step titles
+- Subtle horizontal divider between steps
+- "Download installation guide" black button at bottom
+
+### Section 7: Video Tutorial
+- Title: "E-bike conversion in 15 minutes"
+- Full-width video embed
+- Tutorial/how-to video content
+
+### Section 8: Interactive Product Showcase (Hotspots)
+**Title:** "The Grood Convert kit" | "Click on the items to learn more"
+
+**Layout:** Large product image (bike with kit installed)
+
+**Hotspot Dots:** 4 golden-yellow pulsing dots positioned on:
+
+1. **Battery** (top of frame)
+   - Position: ~30% from left, ~35% from top
+   - Popup: "360Wh Battery" / "40km range, 2.5hr charge"
+   - Specs: 1.5kg | 800 cycles | Removable
+
+2. **Motor Wheel** (front wheel hub)
+   - Position: ~75% from left, ~50% from top
+   - Popup: "350W Hub Motor" / "Silent power, instant torque"
+   - Specs: 25km/h | 5 assist levels | Weatherproof
+
+3. **Pedal Sensor** (bottom bracket area)
+   - Position: ~45% from left, ~70% from top
+   - Popup: "Smart Pedal Sensor" / "Activates based on pedaling"
+   - Specs: Instant response | Natural feel | Easy clip-on
+
+4. **Frame Mount** (downtube)
+   - Position: ~35% from left, ~55% from top
+   - Popup: "Everything Included" / "Tools, cables, manual"
+   - Specs: No skills needed | All hardware | Video guide
+
+**Hotspot Animation:**
+- Pulsing golden-yellow dot (scale 1 → 1.3 → 1)
+- Click to expand info card
+- Active dot: solid fill
+- Other dots: subtle while one is active
+
+**Mobile:** Convert to horizontal scroll cards below image
+
+### Section 9: Before/After Transformation Slider
+**Title:** "Your bike transformation"
+
+**Layout:** Full-width comparison slider
+
+**Implementation:**
+- Two overlapping images (same dimensions)
+- Before image: Regular bike (grayscale/muted)
+- After image: Bike with Grood Convert installed (vibrant)
+- Draggable vertical divider in center
+- "BEFORE" label on left
+- "AFTER" label on right
 
 **Slider Handle:**
-- Vertical line with circular grab handle
-- Golden-yellow accent color
-- Arrow icons (← →) on handle
-- Touch-draggable on mobile
-- Initial position: 50%
+- Vertical golden-yellow line
+- Circular handle with ← → arrows
+- Touch/mouse draggable
 
-**Below slider - stat comparisons:**
-- "0 → 40km" (range gained)
-- "Regular → Electric" (transformation)
-- "15 min install" (ease)
+**Below Slider - Stats:**
+- "0 → 40km range"
+- "Regular → Electric"
+- "15 min install"
 
----
+### Section 10: Features Grid
+**Title:** "Features"
 
-### Section 4: How It Works (Installation Steps)
+**3-column grid:**
 
-**Title:** "Install in 15 Minutes"
-**Subtitle:** "No special skills required. Everything included."
+1. **Anti-theft security**
+   - Icon: Lock/shield
+   - Description: GPS tracking, remote disable, audible alarm
 
-**Layout:** 4 horizontal steps (desktop), vertical stack (mobile)
+2. **Slope detection**
+   - Icon: Mountain/wave
+   - Description: Auto-adjusts power based on incline
 
-**Step 1: Receive Your Kit**
-- Icon: Package/box
-- Description: "Delivered to your door within 3-5 business days, fully equipped and ready to install"
+3. **Performance tracking**
+   - Icon: Chart/graph
+   - Description: Monitor distance, speed, battery in the app
 
-**Step 2: Swap the Front Wheel**
-- Icon: Wheel/swap
-- Description: "Remove your front wheel, replace with the Grood motorized wheel. Tools included."
+### Section 11: Related Products
+- "You might also like"
+- Horizontal carousel of product cards
+- Links to Grood bikes and accessories
 
-**Step 3: Mount the Battery**
-- Icon: Battery
-- Description: "Attach the bottle-style battery to your frame. Connect the simple cable."
+### Section 12: Sticky Bottom Bar (Mobile & Scroll)
+**Always visible when scrolling past purchase panel**
 
-**Step 4: Pair & Ride**
-- Icon: Smartphone/bluetooth
-- Description: "Download the Grood app, connect via Bluetooth, and start riding electric."
-
-**Visual style:**
-- Steps connected by horizontal progress line
-- Golden-yellow number badges (1, 2, 3, 4)
-- White cards with subtle border
-- Optional "Download Installation Guide" PDF button
-
----
-
-### Section 5: Technical Specs & Package Contents
-
-**Section A: Technical Specifications**
-
-Grid layout (2 columns) matching existing Grood specs style:
-
-| Spec | Value | Sub-note |
-|------|-------|----------|
-| Motor | 350W Hub Motor | Rear hub |
-| Range | 40km | Single charge |
-| Top Speed | 25 km/h | Assisted |
-| Battery | 360Wh | Removable |
-| Charge Time | 2.5 hours | Full charge |
-| Kit Weight | ~5kg | Total |
-| Wheel Sizes | 20-29" | All common sizes |
-| Brake Types | Disc & Rim | Compatible |
-| Connectivity | Bluetooth | iOS 12+ / Android 6+ |
-| Warranty | 2 years | Full coverage |
-
-**Section B: Package Contents**
-
-Grid or horizontal scroll cards:
-
-1. Motorized wheel with tire and black rim
-2. 360Wh bottle battery
-3. Battery frame mount
-4. Charger
-5. Pedal sensor
-6. Installation tools & hardware
-7. Instruction manual (QR to video guide)
-
-**Mobile sticky CTA:** "Add to Cart - $299" bar at bottom
+**Layout:** Fixed bottom bar
+- Left: Product name "Grood Convert"
+- Center: Price "$299"
+- Right: "ADD TO CART" button (black, golden text on hover)
 
 ---
 
 ## Technical Implementation
 
-### New Files Required
-
+### File Structure
 ```
-app/convert/page.tsx                    # Main page component
-app/lib/convert-data.ts                 # Product data & types
-app/components/convert/
-  ├── ConvertHero.tsx                   # Hero + purchase panel
-  ├── ProductShowcase.tsx               # Interactive hotspots
-  ├── BeforeAfterSlider.tsx             # Transformation slider
-  ├── InstallationSteps.tsx             # How it works
-  ├── ConvertSpecs.tsx                  # Specs grid
-  └── PackageContents.tsx               # What's in the box
+app/
+├── convert/
+│   └── page.tsx                        # Main page
+├── components/
+│   └── convert/
+│       ├── AnnouncementBar.tsx         # Rotating trust messages
+│       ├── ProductGallery.tsx          # Image gallery + thumbnails
+│       ├── PurchasePanel.tsx           # Variant selector, upsells, cart
+│       ├── TrustBadges.tsx             # 4-column trust icons
+│       ├── VideoShowcase.tsx           # Video with modal
+│       ├── ReviewsCarousel.tsx         # Customer reviews slider
+│       ├── HowItWorks.tsx              # Numbered installation steps
+│       ├── ProductShowcase.tsx         # Interactive hotspots
+│       ├── BeforeAfterSlider.tsx       # Drag comparison slider
+│       ├── FeaturesGrid.tsx            # 3-column features
+│       ├── RelatedProducts.tsx         # Product carousel
+│       └── StickyBottomBar.tsx         # Mobile purchase bar
+└── lib/
+    └── convert-data.ts                 # Product data, specs, reviews
+```
+
+### Key Interactions
+
+1. **Wheel Size Selector:** useState for selected size
+2. **Accessory Checkboxes:** useState array, calculate dynamic total
+3. **Quantity Selector:** useState with +/- handlers
+4. **Add to Cart:** useCart context integration
+5. **Accordions:** useState for open/closed state
+6. **Hotspots:** useState for active hotspot, click handlers
+7. **Before/After Slider:** useState + mouse/touch drag handlers
+8. **Reviews Carousel:** Auto-scroll with setInterval, pause on hover
+9. **Sticky Bar:** useEffect with scroll listener, show after hero
+
+### Assets Required
+```
+public/images/convert/
+├── hero-main.jpg              # Main product shot
+├── thumb-1.jpg ... thumb-8.jpg # Gallery thumbnails
+├── kit-components.jpg         # Flat lay of all components
+├── before.jpg                 # Regular bike
+├── after.jpg                  # Bike with kit installed
+├── hotspot-main.jpg           # Bike for interactive showcase
+├── video-thumbnail.jpg        # Video preview
+├── accessory-lcd.jpg          # LCD display product
+├── accessory-bolt.jpg         # Anti-theft bolt
+├── accessory-mount.jpg        # Phone mount
+└── step-1.jpg ... step-4.jpg  # Installation step images
 ```
 
 ### Integration Points
-
-- Uses existing `CartContext` for add-to-cart functionality
-- Uses existing `useInView` hook for scroll animations
-- Follows existing Grood design tokens (colors, typography, spacing)
-- Reuses button styles (`.btn-primary`, `.btn-light`, etc.)
-
-### Assets Needed
-
-- Product photography (kit components, installed on bike)
-- Before/after bike images (same bike, with and without kit)
-- Step illustrations or photos
-- Component detail images for hotspots
+- CartContext: existing add-to-cart functionality
+- useInView: existing scroll animation hook
+- Header: existing navigation component
+- Footer: existing footer component
 
 ---
 
-## Design Tokens (Grood Existing)
+## Grood Aesthetic Adaptations
 
-```css
---secondary: rgba(255, 204, 0, 0.923)  /* Golden yellow - CTAs, accents */
---background: #ffffff                   /* White backgrounds */
---foreground: #171717                   /* Black text */
---primary: #059669                      /* Green accent */
-```
+| Reebike | Grood |
+|---------|-------|
+| Sage green backgrounds | Cream/gold tint (#FEF9E3) |
+| Yellow hotspots | Golden-yellow (#FFCC00) |
+| Black CTAs | Black with golden hover |
+| French trust badges | English, Grood branding |
+| €770 price | $299 price |
+| Rental option | Remove (not applicable) |
 
 ---
 
-## Approved by User
+## Mobile Responsive Behavior
 
-- [x] Section 1: Hero & Purchase Panel
-- [x] Section 2: Interactive Product Showcase
-- [x] Section 3: Before/After Slider
-- [x] Section 4: Installation Steps
-- [x] Section 5: Specs & Package Contents
+- **< 768px:** Single column, stacked layout
+- **Gallery:** Full width, thumbnails as horizontal scroll
+- **Purchase panel:** Below gallery
+- **Hotspots:** Convert to scroll cards
+- **Before/After:** Touch draggable
+- **Sticky bar:** Always visible at bottom
+
+---
+
+## Approved Features (from brainstorming)
+
+- [x] Variant selector (wheel sizes)
+- [x] Accessory upsells (checkboxes)
+- [x] Interactive product showcase (hotspots)
+- [x] Before/After slider
+- [x] How it works steps
+- [ ] Payment installments (excluded)
+- [ ] Customer reviews carousel (excluded per user, but included in clone)
+
+**Note:** Added reviews carousel to match exact Reebike clone, can be removed if preferred.
