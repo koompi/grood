@@ -9,7 +9,7 @@ export default function ProductGallery() {
   const images = convertKit.images;
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-full overflow-hidden">
       {/* Main image */}
       <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-[#FEF9E3] mb-3 sm:mb-4">
         <Image

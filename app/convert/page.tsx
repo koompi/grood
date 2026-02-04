@@ -33,7 +33,7 @@ export default function ConvertPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16">
             {/* Left: Product Gallery */}
-            <div className="w-full">
+            <div className="w-full overflow-hidden">
               <ProductGallery />
             </div>
 

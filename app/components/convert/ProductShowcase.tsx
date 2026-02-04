@@ -30,7 +30,7 @@ export default function ProductShowcase() {
   }, []);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gray-50">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gray-50 overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-baseline gap-1 sm:gap-2 md:gap-4 mb-8 sm:mb-10 md:mb-12">
@@ -105,48 +105,72 @@ export default function ProductShowcase() {
           </div>
         )}
 
-        {/* Mobile: Horizontal scroll cards */}
+        {/* Mobile: Image with hotspots */}
         {isMobile && (
-          <div className="space-y-4 sm:space-y-6">
-            {/* Image */}
-            <div className="relative aspect-4/3 sm:aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-[#FEF9E3]">
-              <Image
-                src="/images/bikes/siemreap/white/bg.JPG"
-                alt="Grood Convert Kit Components"
-                fill
-                className="object-cover"
-              />
-            </div>
+          <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-[#FEF9E3] hotspot-area">
+            <Image
+              src="/images/bikes/siemreap/white/bg.JPG"
+              alt="Grood Convert Kit Components"
+              fill
+              className="object-cover"
+            />
 
-            {/* Component cards */}
-            <div className="flex gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-              {hotspots.map((hotspot) => (
-                <div
-                  key={hotspot.id}
-                  className="shrink-0 w-56 sm:w-64 snap-start bg-white rounded-lg sm:rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm"
+            {/* Hotspots */}
+            {hotspots.map((hotspot) => (
+              <div
+                key={hotspot.id}
+                className="absolute"
+                style={{
+                  left: hotspot.position.left,
+                  top: hotspot.position.top,
+                }}
+              >
+                {/* Pulsing dot */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveHotspot(
+                      activeHotspot === hotspot.id ? null : hotspot.id
+                    );
+                  }}
+                  className={`relative w-5 h-5 rounded-full bg-secondary flex items-center justify-center cursor-pointer transition-transform hover:scale-110 ${
+                    activeHotspot === hotspot.id ? "scale-110" : ""
+                  }`}
                 >
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary flex items-center justify-center mb-3 sm:mb-4">
-                    <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-white" />
+                  {/* Pulse animation */}
+                  <span className="absolute w-full h-full rounded-full bg-secondary animate-ping opacity-50" />
+                  <span className="relative w-2.5 h-2.5 rounded-full bg-white" />
+                </button>
+
+                {/* Info card - positioned above or below based on position */}
+                {activeHotspot === hotspot.id && (
+                  <div
+                    className={`absolute z-10 w-56 bg-white rounded-lg shadow-xl p-4 animate-in fade-in duration-200 ${
+                      parseFloat(hotspot.position.top) > 50
+                        ? "bottom-8 -left-24"
+                        : "top-8 -left-24"
+                    }`}
+                  >
+                    <h4 className="text-sm font-bold text-black mb-1">
+                      {hotspot.title}
+                    </h4>
+                    <p className="text-gray-500 text-xs mb-3">
+                      {hotspot.subtitle}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {hotspot.specs.map((spec, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-gray-100 rounded-full text-[10px] font-medium text-gray-700"
+                        >
+                          {spec}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h4 className="text-base sm:text-lg font-bold text-black mb-1">
-                    {hotspot.title}
-                  </h4>
-                  <p className="text-gray-500 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {hotspot.subtitle}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {hotspot.specs.map((spec, index) => (
-                      <span
-                        key={index}
-                        className="px-2.5 py-1 sm:px-3 sm:py-1.5 bg-gray-100 rounded-full text-[10px] sm:text-xs font-medium text-gray-700"
-                      >
-                        {spec}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

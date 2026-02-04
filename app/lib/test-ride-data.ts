@@ -42,6 +42,11 @@ export const bikes: Bike[] = [
     name: "Grood Cargo",
     series: "City Series",
   },
+  {
+    id: "cdd1",
+    name: "Grood Cargo Doek Doek",
+    series: "Cargo Series",
+  },
 ];
 
 export const timeSlots = [

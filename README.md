@@ -42,3 +42,5 @@ npx prisma generate
 npm run db:seed
 
 npx prisma db push
+
+update in koompi cloud: git pull && npm run build && pm2 restart all

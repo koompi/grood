@@ -22,6 +22,15 @@ const products = [
     href: "/bikes/phnompenh",
     soldOut: true,
   },
+  {
+    id: "cargo-doek-doek",
+    name: "Cargo Doek Doek",
+    tagline: "CARGO HAULER",
+    price: "$1,849",
+    image: "/images/bikes/cargo/background3.JPG",
+    href: "/bikes/cargodoekdoek",
+    soldOut: false,
+  },
 ];
 
 export default function ProductShowcase() {

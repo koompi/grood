@@ -240,6 +240,103 @@ export const bikes: Record<string, Bike> = {
       },
     ],
   },
+  cargodoekdoek: {
+    id: "cargodoekdoek",
+    name: "Cargo Doek Doek",
+    model: "CARGO COLLECTION",
+    tagline: "Haul more, worry less",
+    description:
+      "Built for serious cargo. Family trips, business deliveries, or adventure loads—carry it all with ease.",
+    price: "$0.05",
+    priceNumber: 0.05,
+    color: "Desert Sand",
+    specs: {
+      range: "60km",
+      rangeLabel: "Battery Range",
+      speed: "25",
+      speedLabel: "Top Speed",
+      speedSub: "km/h assisted",
+      weight: "28kg",
+      weightLabel: "Weight",
+      battery: "504Wh",
+      batteryLabel: "Battery",
+      batterySub: "3hr to full",
+      motor: "500W",
+      motorLabel: "Motor",
+    },
+    images: [
+      "/images/bikes/cargo/background1.JPG",
+      "/images/bikes/cargo/gear.JPG",
+      "/images/bikes/cargo/cargo.JPG",
+      "/images/bikes/cargo/spring.JPG",
+      "/images/bikes/cargo/background3.JPG",
+      "/images/bikes/cargo/battery.JPG",
+    ],
+    features: [
+      {
+        title: "Massive Capacity",
+        desc: "Front and rear cargo areas designed to carry up to 150kg total load",
+      },
+      {
+        title: "Powerful Assist",
+        desc: "500W motor makes hauling heavy loads feel effortless",
+      },
+      {
+        title: "Family Ready",
+        desc: "Safely transport kids, groceries, or gear with stability in mind",
+      },
+    ],
+    components: [
+      {
+        title: "Extended Battery",
+        subtitle: "36V 14Ah High-Capacity",
+        description:
+          "More power for bigger loads. Go the distance with cargo, not range anxiety.",
+        image: "/images/bikes/cargo/battery.JPG",
+        specs: ["60km Range", "2.9kg Weight", "3hr Charge", "1000 Cycles"],
+      },
+      {
+        title: "Cargo Motor",
+        subtitle: "500W Mid-Drive Motor",
+        description:
+          "Engineered for weight. Climb hills loaded, accelerate smoothly, arrive on time.",
+        image: "/images/bikes/cargo/spring.JPG",
+        specs: ["500W Power", "25km/h Max", "5 Assist Levels"],
+      },
+      {
+        title: "Utility Design",
+        subtitle: "Purpose-Built Frame",
+        description:
+          "Every line serves a function. Load, secure, ride—repeat daily without compromise.",
+        image: "/images/bikes/cargo/background2.JPG",
+        specs: ["150kg Capacity", "Integrated Mounts", "Weather Resistant"],
+      },
+      {
+        title: "8 Speed Gear",
+        subtitle: "Shimano Nexus Hub",
+        description:
+          "Internal gearing for reliability. Low maintenance, smooth shifts under load.",
+        image: "/images/bikes/cargo/gear.JPG",
+        specs: ["8 Speed Shimano", "Internal Hub", "Chain Guard"],
+      },
+      {
+        title: "Cargo Assist",
+        subtitle: "Load-Sensing Technology",
+        description:
+          "Smart power that adapts to your cargo. Heavy or light, the ride feels the same.",
+        image: "/images/bikes/cargo/cargo.JPG",
+        specs: ["5 Power Levels", "Torque Sensing", "Walk Assist Mode"],
+      },
+      {
+        title: "Heavy-Duty Build",
+        subtitle: "Reinforced Steel Frame",
+        description:
+          "Built to work hard every day. Commercial-grade durability for years of service.",
+        image: "/images/bikes/cargo/background2.JPG",
+        specs: ["28kg Frame", "Double-Wall Rims", "Industrial Components"],
+      },
+    ],
+  },
 };
 
 export function getBikeById(id: string): Bike | undefined {
