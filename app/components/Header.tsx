@@ -18,6 +18,7 @@ export default function Header({ theme = "dark" }: HeaderProps) {
   const { itemCount, setIsCartOpen } = useCart();
 
   const isLight = theme === "light";
+
   const textColor = isLight ? "text-black" : "text-white";
   const borderColor = isLight ? "border-black/10" : "border-white/10";
   const bgColor = isLight ? "bg-black/5" : "bg-black/10";

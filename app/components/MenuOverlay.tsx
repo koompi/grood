@@ -12,6 +12,7 @@ interface MenuOverlayProps {
 
 const navLinks = [
   { label: "All e-bikes", href: "/all-bikes" },
+  { label: "Conversion Kit", href: "/convert" },
   { label: "Tech Specs", href: "/specs" },
   { label: "Warranty", href: "/warranty" },
   { label: "Accessories", href: "/accessories" },
@@ -128,7 +129,11 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
               </svg>
               Book a Test Ride
             </Link>
-            <Link href="/accessories" className="btn-ghost text-sm" onClick={onClose}>
+            <Link
+              href="/accessories"
+              className="btn-ghost text-sm"
+              onClick={onClose}
+            >
               Accessories
             </Link>
           </div>

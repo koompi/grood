@@ -127,7 +127,7 @@ export default function SmartFeatures() {
             href="#app"
             className="inline-flex items-center gap-2 text-secondary hover:text-secondary/80 transition-colors font-medium"
           >
-            Learn more about the Grood App
+            Coming Soon!
             <svg
               width="16"
               height="16"

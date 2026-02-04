@@ -4,7 +4,9 @@ import Image from "next/image";
 const footerLinks = {
   products: [
     { name: "All Bikes", href: "/all-bikes" },
-    { name: "Grood S21", href: "/bikes/s21" },
+    { name: "Grood Siem Reap", href: "/bikes/siemreap" },
+    { name: "Grood Phnom Penh", href: "/bikes/phnompenh" },
+    { name: "Convertion Kit", href: "/convert" },
     { name: "Accessories", href: "/accessories" },
     { name: "Specs", href: "/specs" },
   ],

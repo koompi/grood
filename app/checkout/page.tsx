@@ -5,31 +5,166 @@ import Header from "../components/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { items, cartTotal, clearCart } = useCart();
-  const router = useRouter();
-  const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("khqr");
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    phone: "",
+    email: "",
+  });
+
+  const createOrderMutation = trpc.orders.create.useMutation({
+    onSuccess: (data) => {
+      // We don't clear cart here immediately if we are redirecting to payment
+      // setOrderNumber(data.orderNumber);
+      // clearCart();
+    },
+  });
 
   // Flat rate for demo
   const shipping = 0;
   const total = cartTotal + shipping;
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // 1. Create Order in DB
+      // COD orders are confirmed/pending immediately. Pay Now orders start as draft until paid.
+      const initialStatus = paymentMethod === "cod" ? "pending" : "draft";
+
+      const order = await createOrderMutation.mutateAsync({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        phone: formData.phone,
+        email: formData.email || undefined,
+        paymentMethod,
+        status: initialStatus,
+        items: items.map((item) => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+          color: item.options?.color,
+          size: item.options?.size,
+        })),
+      });
+
+      // If COD, just show success directly
+      if (paymentMethod === "cod") {
+        setOrderNumber(order.orderNumber);
+        clearCart();
+        setIsProcessing(false);
+        return;
+      }
+
+      // 2. Initiate Baray Payment (only for non-COD)
+      const response = await fetch("/api/baray/create-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: total,
+          currency: "USD",
+          orderId: order.orderNumber,
+          customer: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to initiate payment");
+      }
+
+      const data = await response.json();
+
+      // 3. Clear Cart and Redirect
       clearCart();
+
+      // Redirect to Baray Payment Page
+      // The API response should return the intent_id, we construct the URL
+      // Docs: https://pay.baray.io/{intent_id}
+      // The response from create-intent API (which calls Baray) returns the Baray response directly
+      // Verify response structure from docs: { _id: "itn-..." } is the intent ID.
+      // Wait, let's check my API route implementation.
+      // It returns `const data = await response.json(); return NextResponse.json(data);`
+      // So `data._id` should be the intent ID.
+
+      if (data._id) {
+        window.location.href = `https://pay.baray.io/${data._id}`;
+      } else {
+        console.error("No intent ID returned", data);
+        alert(
+          data.error || "Something went wrong with payment initialization.",
+        );
+        setIsProcessing(false);
+      }
+    } catch (error: any) {
+      console.error("Order processing error:", error);
+      alert(error.message || "Failed to process order. Please try again.");
       setIsProcessing(false);
-      // In a real app, redirect to success page or show success state
-      alert("Order placed successfully! Thank you for choosing Grood.");
-      router.push("/");
-    }, 2000);
+    }
   };
+
+  // Success state
+  if (orderNumber) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <Header theme="light" />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-24">
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6L9 17L4 12"
+                stroke="#22c55e"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold mb-2">Order Confirmed!</h1>
+          <p className="text-gray-500 mb-2">Thank you for your purchase.</p>
+          <p className="text-lg font-medium text-gray-900 mb-8">
+            Order Number:{" "}
+            <span className="text-secondary-deep">{orderNumber}</span>
+          </p>
+          <Link
+            href="/"
+            className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -104,35 +239,13 @@ export default function CheckoutPage() {
             <span>Payment</span>
           </nav>
 
-          <form onSubmit={handlePlaceOrder} className="space-y-8">
-            {/* Contact */}
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">Contact</h2>
-                <Link
-                  href="/login"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Log in
-                </Link>
-              </div>
-              <input
-                type="email"
-                placeholder="Email or mobile phone number"
-                className="w-full p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow"
-              />
-              <div className="mt-3 flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="news"
-                  className="rounded border-gray-300 text-primary focus:ring-primary"
-                />
-                <label htmlFor="news" className="text-sm text-gray-600">
-                  Email me with news and offers
-                </label>
-              </div>
+          {createOrderMutation.error && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6">
+              {createOrderMutation.error.message}
             </div>
+          )}
 
+          <form onSubmit={handlePlaceOrder} className="space-y-8">
             {/* Delivery */}
             <div>
               <h2 className="text-lg font-bold mb-4">Delivery</h2>
@@ -141,241 +254,104 @@ export default function CheckoutPage() {
                   <input
                     type="text"
                     placeholder="First name"
+                    required
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
                     className="w-1/2 p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                   />
                   <input
                     type="text"
                     placeholder="Last name"
+                    required
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
                     className="w-1/2 p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                   />
                 </div>
+                <input
+                  type="email"
+                  placeholder="Email (optional)"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                />
                 <input
                   type="text"
                   placeholder="Address"
+                  required
+                  value={formData.address}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   className="w-full p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                 />
                 <input
-                  type="text"
-                  placeholder="Apartment, suite, etc. (optional)"
+                  type="tel"
+                  placeholder="Phone"
+                  required
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   className="w-full p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
                 />
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    placeholder="Postal code"
-                    className="w-1/2 p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  />
-                  <input
-                    type="text"
-                    placeholder="City"
-                    className="w-1/2 p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  />
-                </div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Phone"
-                    className="w-full p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group relative">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                    </svg>
-                    <span className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded hidden group-hover:block">
-                      Used for shipping updates
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="save-info"
-                    className="rounded border-gray-300 text-primary focus:ring-primary"
-                  />
-                  <label htmlFor="save-info" className="text-sm text-gray-600">
-                    Save this information for next time
-                  </label>
-                </div>
               </div>
             </div>
 
-            {/* Shipping Method */}
+            {/* Payment Method Selection */}
             <div>
-              <h2 className="text-lg font-bold mb-4">Shipping method</h2>
-              <div className="p-4 bg-gray-50 rounded-md text-sm text-gray-500 text-center">
-                Enter your shipping address to view available shipping methods.
-              </div>
-            </div>
-
-            {/* Payment */}
-            <div>
-              <h2 className="text-lg font-bold mb-2">Payment</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                All transactions are secure and encrypted.
-              </p>
-
-              <div className="border border-gray-300 rounded-md overflow-hidden">
-                {/* KHQR */}
-                <div
-                  className={`p-4 flex items-center gap-3 border-b border-gray-200 cursor-pointer ${paymentMethod === "khqr" ? "bg-gray-50" : "bg-white"}`}
-                  onClick={() => setPaymentMethod("khqr")}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === "khqr"}
-                    onChange={() => setPaymentMethod("khqr")}
-                    className="text-primary focus:ring-primary border-gray-300"
-                  />
-                  <div className="flex-1 flex justify-between items-center">
-                    <span className="font-medium text-sm">KHQR</span>
-                    <div className="flex gap-2">
-                      {/* Placeholder icons */}
-                      <div className="h-6 w-10 bg-red-600 rounded flex items-center justify-center text-[8px] text-white font-bold">
-                        KHQR
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {paymentMethod === "khqr" && (
-                  <div className="p-4 bg-gray-50 border-t border-gray-200 text-center">
-                    <div className="w-40 h-40 bg-white border border-gray-200 mx-auto mb-3 flex items-center justify-center">
-                      <svg
-                        width="64"
-                        height="64"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                        className="text-gray-300"
-                      >
-                        <rect
-                          x="3"
-                          y="3"
-                          width="18"
-                          height="18"
-                          rx="2"
-                          ry="2"
-                        ></rect>
-                        <rect x="7" y="7" width="3" height="3"></rect>
-                        <rect x="14" y="7" width="3" height="3"></rect>
-                        <rect x="7" y="14" width="3" height="3"></rect>
-                        <rect x="14" y="14" width="3" height="3"></rect>
-                      </svg>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      Scan to pay with any supported banking app.
-                    </p>
-                  </div>
-                )}
-
-                {/* ABA Pay */}
-                <div
-                  className={`p-4 flex items-center gap-3 border-b border-gray-200 cursor-pointer ${paymentMethod === "aba" ? "bg-gray-50" : "bg-white"}`}
-                  onClick={() => setPaymentMethod("aba")}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === "aba"}
-                    onChange={() => setPaymentMethod("aba")}
-                    className="text-primary focus:ring-primary border-gray-300"
-                  />
-                  <div className="flex-1 flex justify-between items-center">
-                    <span className="font-medium text-sm">ABA Pay</span>
-                    <div className="h-6 w-10 bg-[#005F88] rounded flex items-center justify-center text-[8px] text-white font-bold">
-                      ABA
-                    </div>
-                  </div>
-                </div>
-                {paymentMethod === "aba" && (
-                  <div className="p-4 bg-gray-50 border-t border-gray-200 text-center text-sm text-gray-500">
-                    You will be redirected to ABA Pay to complete your purchase
-                    securely.
-                  </div>
-                )}
-
-                {/* Acleda */}
-                <div
-                  className={`p-4 flex items-center gap-3 border-b border-gray-200 cursor-pointer ${paymentMethod === "acleda" ? "bg-gray-50" : "bg-white"}`}
-                  onClick={() => setPaymentMethod("acleda")}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === "acleda"}
-                    onChange={() => setPaymentMethod("acleda")}
-                    className="text-primary focus:ring-primary border-gray-300"
-                  />
-                  <div className="flex-1 flex justify-between items-center">
-                    <span className="font-medium text-sm">Acleda Bank</span>
-                    <div className="h-6 w-10 bg-[#143E8C] rounded flex items-center justify-center text-[8px] text-white font-bold">
-                      ACLEDA
-                    </div>
-                  </div>
-                </div>
-
-                {/* Credit Card */}
-                <div
-                  className={`p-4 flex items-center gap-3 cursor-pointer ${paymentMethod === "card" ? "bg-gray-50" : "bg-white"}`}
-                  onClick={() => setPaymentMethod("card")}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === "card"}
-                    onChange={() => setPaymentMethod("card")}
-                    className="text-primary focus:ring-primary border-gray-300"
-                  />
-                  <div className="flex-1 flex justify-between items-center">
-                    <span className="font-medium text-sm">Credit card</span>
-                    <div className="flex gap-1">
-                      <div className="h-5 w-8 bg-gray-100 rounded border border-gray-200 flex items-center justify-center text-[6px]">
-                        VISA
-                      </div>
-                      <div className="h-5 w-8 bg-gray-100 rounded border border-gray-200 flex items-center justify-center text-[6px]">
-                        MC
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {paymentMethod === "card" && (
-                  <div className="p-4 bg-gray-50 border-t border-gray-200 space-y-3">
+              <h2 className="text-lg font-bold mb-4">Payment Method</h2>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors hover:bg-gray-50 border-gray-300 has-[:checked]:border-primary has-[:checked]:bg-green-50">
+                  <div className="flex items-center gap-3">
                     <input
-                      type="text"
-                      placeholder="Card number"
-                      className="w-full p-3 rounded bg-white border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                      type="radio"
+                      name="paymentMethod"
+                      value="pay_now"
+                      checked={
+                        paymentMethod === "pay_now" || paymentMethod === "khqr"
+                      }
+                      onChange={() => setPaymentMethod("pay_now")}
+                      className="w-5 h-5 text-primary border-gray-300 focus:ring-primary"
                     />
-                    <div className="flex gap-3">
-                      <input
-                        type="text"
-                        placeholder="Expiration date (MM / YY)"
-                        className="w-1/2 p-3 rounded bg-white border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Security code"
-                        className="w-1/2 p-3 rounded bg-white border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                      />
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-900">Pay Now</span>
+                      <span className="text-sm text-gray-500">
+                        Secure online payment via KHQR / Cards
+                      </span>
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Name on card"
-                      className="w-full p-3 rounded bg-white border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                    />
                   </div>
-                )}
+                  <div className="flex gap-2">
+                    {/* Icons could go here if needed */}
+                  </div>
+                </label>
+
+                <label className="flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors hover:bg-gray-50 border-gray-300 has-[:checked]:border-primary has-[:checked]:bg-green-50">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="cod"
+                      checked={paymentMethod === "cod"}
+                      onChange={() => setPaymentMethod("cod")}
+                      className="w-5 h-5 text-primary border-gray-300 focus:ring-primary"
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-900">
+                        Cash on Delivery
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        Pay when you receive your order
+                      </span>
+                    </div>
+                  </div>
+                </label>
               </div>
             </div>
 
@@ -385,7 +361,11 @@ export default function CheckoutPage() {
                 disabled={isProcessing}
                 className="w-full bg-[#059669] text-white py-4 rounded-lg font-bold text-lg hover:bg-[#047857] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
               >
-                {isProcessing ? "Processing..." : "Pay now"}
+                {isProcessing
+                  ? "Processing..."
+                  : paymentMethod === "cod"
+                    ? "Place Order"
+                    : "Pay Now"}
               </button>
               <div className="mt-4 flex justify-center space-x-4 text-xs text-primary underline">
                 <Link href="#">Refund policy</Link>
@@ -404,7 +384,7 @@ export default function CheckoutPage() {
           <div className="space-y-4 mb-8">
             {items.map((item) => (
               <div key={item.id} className="flex gap-4 items-center">
-                <div className="relative w-16 h-16 bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                <div className="relative w-16 h-16 bg-white border border-gray-200 rounded-lg overflow-hidden shrink-0">
                   <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-gray-500 text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center z-10 shadow-sm">
                     {item.quantity}
                   </div>
@@ -436,27 +416,8 @@ export default function CheckoutPage() {
               </span>
             </div>
             <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600 flex items-center gap-1">
-                Shipping
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-gray-400"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
-              </span>
-              <span className="text-gray-500 text-xs">
-                Enter shipping address
-              </span>
+              <span className="text-gray-600">Shipping</span>
+              <span className="text-gray-500 text-xs">Free</span>
             </div>
 
             <div className="flex justify-between items-baseline pt-4 border-t border-gray-200">
@@ -467,17 +428,6 @@ export default function CheckoutPage() {
                   ${total.toLocaleString()}
                 </span>
               </div>
-            </div>
-            {/* Promo Code */}
-            <div className="flex gap-2 pt-6">
-              <input
-                type="text"
-                placeholder="Discount code or gift card"
-                className="flex-1 p-3 rounded-md border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none shadow-sm text-sm"
-              />
-              <button className="px-4 py-3 bg-gray-200 text-gray-500 font-medium rounded-md hover:bg-gray-300 transition-colors text-sm disabled:opacity-50">
-                Apply
-              </button>
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
-import GroodApp from "../components/GroodApp"; // Reusing the footer/app section style if needed or just footer
 
 const timelineEvents = [
   {
@@ -56,153 +55,114 @@ export default function OurStory() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center bg-black/90 text-white overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-50">
+      <section className="relative h-[40vh] flex items-center justify-center bg-primary-deep text-white overflow-hidden">
+        {/* <div className="absolute inset-0 z-0 opacity-50">
           <Image
             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80"
             alt="Grood Workshop"
             fill
             className="object-cover"
           />
-        </div>
+        </div> */}
         <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
           <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
-            Our Journey
+            Building the future of mobility
           </span>
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Building the future of mobility
+            Introducing Grood
           </h1>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section className="py-24 px-6 bg-[#FAFAFA]">
-        <div className="max-w-4xl mx-auto relative">
-          {/* Vertical Line */}
-          <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2 md:translate-x-0 hidden md:block"></div>
-          <div className="absolute left-[20px] top-0 bottom-0 w-px bg-gray-200 md:hidden"></div>
-
-          <div className="space-y-24">
-            {timelineEvents.map((event, index) => (
-              <div
-                key={index}
-                className={`relative flex flex-col md:flex-row items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}
-              >
-                {/* Content */}
-                <div className="flex-1 md:w-1/2 pl-12 md:px-0 md:text-right">
-                  <div
-                    className={`md:px-12 ${index % 2 !== 0 ? "md:text-left" : ""}`}
-                  >
-                    <span className="text-4xl font-bold text-secondary block mb-2">
-                      {event.year}
-                    </span>
-                    <h3 className="text-xl font-bold text-black mb-2">
-                      {event.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed max-w-sm ml-auto">
-                      {event.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Dot */}
-                <div className="absolute left-[20px] md:left-1/2 w-4 h-4 bg-secondary rounded-full border-4 border-white shadow-sm -translate-x-1/2 z-10"></div>
-
-                {/* Empty Space for Grid */}
-                <div className="flex-1 md:w-1/2 hidden md:block"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-24 px-6 bg-primary-deep text-white">
+      {/* About Section */}
+      <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
-              Our Values
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold">
-              What we stand for
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="bg-primary-dark p-10 rounded-2xl border border-white/10 hover:border-secondary/50 transition-colors"
-              >
-                <h3 className="text-2xl font-bold mb-4">{value.title}</h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {value.description}
-                </p>
+          <div className="grid md:grid-cols-2 gap-16">
+            {/* What is Grood */}
+            <div>
+              <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-8">
+                <Image
+                  src="/images/oldbike.jpg"
+                  alt="Grood E-Bike"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            ))}
+              <span className="text-secondary-deep font-bold tracking-widest text-sm uppercase mb-4 block">
+                What is Grood E-Bikes?
+              </span>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Drawing inspiration from the iconic Cambodian bicycle designs of
+                the late 1970s, these bikes combine a classic aesthetic with
+                modern technology. Grood has redefined urban mobility in
+                Cambodia with its collection of chic, high-performance electric
+                bicycles for eco-conscious riders without compromising on style.
+              </p>
+            </div>
+
+            {/* Who's behind */}
+            <div>
+              <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-8">
+                <Image
+                  src="/images/bikes/siemreap/2.jpg"
+                  alt="Grood Team"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-secondary-deep font-bold tracking-widest text-sm uppercase mb-4 block">
+                Who&apos;s behind this project?
+              </span>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                We created Grood bicycles back in 2020 as a classic style
+                bicycle concept. What started as a passion project has grown
+                into Cambodia&apos;s leading electric bicycle brand.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Team Section */}
-      <section className="py-24 px-6 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
-              Our Team
-            </span>
-            <h2 className="text-4xl md:text-6xl font-bold text-black mb-8">
-              Riders building for riders
-            </h2>
-            <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-              Our team is made up of engineers, designers, and urban mobility
-              enthusiasts who ride Grood bikes every day. We build what we ride,
-              and we ride what we build.
-            </p>
-            <p className="text-gray-600 text-lg mb-10 leading-relaxed">
-              Headquartered in Phnom Penh with team members across Southeast
-              Asia, we're a diverse group united by our passion for better
-              cities.
-            </p>
-
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 text-black font-semibold hover:text-secondary transition-colors group"
-            >
-              Join our team
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="group-hover:translate-x-1 transition-transform"
-              >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
+          {/* Designed in Cambodia */}
+          <div className="mt-16 p-10 bg-[#FAFAFA] rounded-3xl">
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center shrink-0">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-black mb-2">
+                  Designed & Assembled in Cambodia
+                </h3>
+                <p className="text-gray-600 text-lg leading-relaxed">
+                  Grood aims to expertly design and assemble every bike,
+                  ensuring it fulfills our precise standards and specifications.
+                  Every Grood is proudly made in Cambodia.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="relative">
-            <div className="aspect-square relative rounded-3xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&q=80"
-                alt="Grood Team"
-                fill
-                className="object-cover"
-              />
-            </div>
+          {/* Workshop Image */}
+          <div className="mt-16 relative aspect-21/9 rounded-3xl overflow-hidden">
+            <Image
+              src="/images/bikes/siemreap/design.jpg"
+              alt="Grood Workshop in Cambodia"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
     </div>
   );
 }

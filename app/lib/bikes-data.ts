@@ -52,11 +52,11 @@ export const bikes: Record<string, Bike> = {
     tagline: "Where tradition meets innovation",
     description:
       "Classic design meets modern technology. Elegant, effortless city riding.",
-    price: "$1,200",
-    priceNumber: 1200,
+    price: "$0.05",
+    priceNumber: 0.05,
     color: "Forest Green",
     specs: {
-      range: "50km",
+      range: "40km",
       rangeLabel: "Battery Range",
       speed: "25",
       speedLabel: "Top Speed",
@@ -70,12 +70,12 @@ export const bikes: Record<string, Bike> = {
       motorLabel: "Motor",
     },
     images: [
-      "/images/bikes/siemreap/2.jpg",
-      "/images/bikes/siemreap/2.jpg",
-      "/images/bikes/siemreap/3.jpg",
-      "/images/bikes/siemreap/seat.jpg",
-      "/images/bikes/siemreap/handle.jpg",
-      "/images/bikes/siemreap/battery.jpg",
+      "/images/bikes/siemreap/white/bg.JPG",
+      "/images/bikes/siemreap/white/body.JPG",
+      "/images/bikes/siemreap/white/spring.JPG",
+      "/images/bikes/siemreap/white/light.JPG",
+      "/images/bikes/siemreap/white/handle.JPG",
+      "/images/bikes/siemreap/white/battery.JPG",
     ],
     features: [
       {
@@ -97,7 +97,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "36V 7.0Ah Ultra-Light",
         description:
           "Power that disappears into the design. Go further, charge faster, ride longer.",
-        image: "/images/bikes/siemreap/battery.jpg",
+        image: "/images/bikes/siemreap/white/battery.JPG",
         specs: ["40km Range", "1.16kg Weight", "2hr Charge", "800 Cycles"],
       },
       {
@@ -105,7 +105,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "350W Rear Hub Motor",
         description:
           "Silent strength when you need it. Conquer hills effortlessly, arrive without sweat.",
-        image: "/images/bikes/siemreap/spring.jpg",
+        image: "/images/bikes/siemreap/white/spring.JPG",
         specs: ["350W Power", "32km/h Max", "5 Assist Levels"],
       },
       {
@@ -113,7 +113,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "Subtle & User-Friendly",
         description:
           "Nothing unnecessary. Everything intentional. Ride with clarity, day or night.",
-        image: "/images/bikes/siemreap/design.jpg",
+        image: "/images/bikes/siemreap/white/assemble.JPG",
         specs: ["Clean Interface", "100lux Lighting", "Intuitive Controls"],
       },
       {
@@ -121,7 +121,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "Shimano Drivetrain",
         description:
           "The perfect gear, every time. Trusted by professionals, loved by commuters.",
-        image: "/images/bikes/siemreap/gear.jpg",
+        image: "/images/bikes/siemreap/white/handle.JPG",
         specs: ["9 Speed Shimano", "Proven Durability", "Smooth Shifting"],
       },
       {
@@ -129,7 +129,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "Intelligent Power Delivery",
         description:
           "Your effort, amplified. Feel the joy of cycling without the exhaustion.",
-        image: "/images/bikes/siemreap/brake.jpg",
+        image: "/images/bikes/siemreap/white/paddle.JPG",
         specs: ["5 Power Levels", "Natural Feel", "Ride Without Power"],
       },
       {
@@ -137,7 +137,7 @@ export const bikes: Record<string, Bike> = {
         subtitle: "Premium Steel Construction",
         description:
           "Carry it upstairs. Park it anywhere. Built for years of daily adventures.",
-        image: "/images/bikes/siemreap/3.jpg",
+        image: "/images/bikes/siemreap/white/logo.JPG",
         specs: ["Under 20kg", "TIG Welded Steel", "Durable Components"],
       },
     ],
@@ -149,12 +149,12 @@ export const bikes: Record<string, Bike> = {
     tagline: "Built for the modern city",
     description:
       "High-performance for the fast-paced urban lifestyle. Power meets precision.",
-    price: "$1,450",
-    priceNumber: 1450,
+    price: "$0.05",
+    priceNumber: 0.05,
     color: "Midnight Black",
     soldOut: true,
     specs: {
-      range: "65km",
+      range: "40km",
       rangeLabel: "Battery Range",
       speed: "30",
       speedLabel: "Top Speed",

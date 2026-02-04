@@ -8,17 +8,19 @@ const products = [
     id: "siem-reap",
     name: "Siem Reap",
     tagline: "CITY CRUISER",
-    price: "$600",
-    image: "/images/bikes/phnompenh/1.jpg",
+    price: "$1,249",
+    image: "/images/bikes/siemreap/white/body.JPG",
     href: "/bikes/siemreap",
+    soldOut: false,
   },
   {
     id: "phnom-penh",
     name: "Phnom Penh",
     tagline: "URBAN EXPLORER",
-    price: "$850",
+    price: "$600",
     image: "/images/bikes/grood-green.jpg",
     href: "/bikes/phnompenh",
+    soldOut: true,
   },
 ];
 
@@ -60,9 +62,15 @@ export default function ProductShowcase() {
                   {product.name}
                 </h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl md:text-3xl font-bold text-white">
-                    {product.price}
-                  </span>
+                  {product.soldOut ? (
+                    <span className="px-4 py-2 bg-red-400   text-white text-sm font-bold rounded-full">
+                      Sold Out
+                    </span>
+                  ) : (
+                    <span className="text-2xl md:text-3xl font-bold text-white">
+                      {product.price}
+                    </span>
+                  )}
                   <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center group-hover:bg-secondary transition-colors duration-300">
                     <svg
                       width="18"

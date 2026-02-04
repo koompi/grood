@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@source not "../.agent/**/*";
+@source not "../.skillssh/**/*";
+@source not "../.claude/**/*";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,6 +21,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --color-primary: var(--primary);
   --color-primary-deep: var(--primary-deep);
   --color-secondary: var(--secondary);
@@ -228,4 +233,37 @@ body {
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 0.5rem;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Line clamp utility */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Safe area for iOS devices with notch/home indicator */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Text stroke/outline effect */
+.text-stroke {
+  -webkit-text-stroke: 2px white;
+}
+
+@media (min-width: 768px) {
+  .text-stroke {
+    -webkit-text-stroke: 3px white;
+  }
 }

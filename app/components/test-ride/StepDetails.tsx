@@ -12,6 +12,8 @@ interface StepDetailsProps {
   };
   onBack: () => void;
   onSubmit: (details: UserDetails) => void;
+  isLoading?: boolean;
+  error?: string | null;
 }
 
 export interface UserDetails {
@@ -25,6 +27,8 @@ export default function StepDetails({
   bookingData,
   onBack,
   onSubmit,
+  isLoading = false,
+  error = null,
 }: StepDetailsProps) {
   const [formData, setFormData] = useState<UserDetails>({
     firstName: "",
@@ -125,20 +129,27 @@ export default function StepDetails({
           />
         </div>
 
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+            {error}
+          </div>
+        )}
+
         <div className="flex items-center justify-center gap-4 pt-4">
           <button
             type="button"
             onClick={onBack}
-            className="px-12 py-3 bg-white border border-gray-100 rounded-full font-medium hover:bg-gray-50 transition-colors w-1/3"
+            disabled={isLoading}
+            className="px-12 py-3 bg-white border border-gray-100 rounded-full font-medium hover:bg-gray-50 transition-colors w-1/3 disabled:opacity-50"
           >
             Back
           </button>
           <button
             type="submit"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isLoading}
             className="px-8 py-3 bg-secondary text-black rounded-full font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary/90 transition-all w-full flex-1"
           >
-            Book Test Ride
+            {isLoading ? "Booking..." : "Book Test Ride"}
           </button>
         </div>
       </form>

@@ -4,16 +4,27 @@ import Link from "next/link";
 import Image from "next/image";
 import Header from "../components/Header";
 import { getAllBikes } from "../lib/bikes-data";
+import { useCart } from "../context/CartContext";
 
 export default function AllBikes() {
   const bikes = getAllBikes();
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (bike: ReturnType<typeof getAllBikes>[0]) => {
+    addToCart({
+      id: bike.id,
+      name: bike.name,
+      price: bike.priceNumber,
+      image: bike.images[0],
+    });
+  };
 
   return (
     <div className="bg-white min-h-screen">
       <Header />
 
       {/* Hero Section */}
-      <section className="bg-primary-deep pt-32 pb-20 px-6 text-center text-white min-h-[50vh] flex flex-col items-center justify-center">
+      <section className="bg-primary-deep pt-32 pb-20 px-6 text-center text-white min-h-[40vh] flex flex-col items-center justify-center">
         <span className="text-secondary text-sm font-bold tracking-widest uppercase mb-4">
           OUR RIDES
         </span>
@@ -45,14 +56,17 @@ export default function AllBikes() {
                     </span>
                   )}
                 </div>
-                <div className="relative aspect-4/3 rounded-3xl overflow-hidden bg-gray-50">
+                <Link
+                  href={`/bikes/${bike.id}`}
+                  className="block relative aspect-4/3 rounded-3xl overflow-hidden bg-gray-50 cursor-pointer"
+                >
                   <Image
                     src={bike.images[0]}
                     alt={bike.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                </div>
+                </Link>
               </div>
 
               {/* Content Side */}
@@ -61,7 +75,12 @@ export default function AllBikes() {
                   <span className="text-xs font-bold tracking-widest uppercase mb-2 block text-secondary-deep">
                     {bike.model}
                   </span>
-                  <h2 className="text-5xl font-bold mb-4">{bike.name}</h2>
+                  <Link
+                    href={`/bikes/${bike.id}`}
+                    className="hover:text-secondary-deep transition-colors"
+                  >
+                    <h2 className="text-5xl font-bold mb-4">{bike.name}</h2>
+                  </Link>
                   <p className="text-gray-500 mb-8">{bike.tagline}</p>
 
                   {/* Specs Grid */}
@@ -92,11 +111,10 @@ export default function AllBikes() {
                   </div>
 
                   <div className="flex gap-4">
-                    <Link
-                      href={`/bikes/${bike.id}`}
-                      className="bg-secondary-deep text-white px-8 py-4 rounded-full font-semibold hover:bg-secondary/90 transition-colors flex items-center gap-2"
+                    <button
+                      onClick={() => handleAddToCart(bike)}
+                      className="bg-primary text-white px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2"
                     >
-                      Explore
                       <svg
                         width="16"
                         height="16"
@@ -105,17 +123,18 @@ export default function AllBikes() {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M5 12H19M19 12L12 5M19 12L12 19"
+                          d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.707 15.293C4.077 15.923 4.523 17 5.414 17H17M17 17C15.895 17 15 17.895 15 19C15 20.105 15.895 21 17 21C18.105 21 19 20.105 19 19C19 17.895 18.105 17 17 17ZM9 19C9 20.105 8.105 21 7 21C5.895 21 5 20.105 5 19C5 17.895 5.895 17 7 17C8.105 17 9 17.895 9 19Z"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </Link>
+                      Add to Cart
+                    </button>
                     <Link
                       href="/test-ride"
-                      className="bg-transparent text-secondary-deep border border-secondary-deep px-8 py-4 rounded-full font-semibold hover:bg-secondary-deep/10 transition-colors"
+                      className="bg-transparent text-primary-deep border border-primary-deep px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-primary-deep/10 transition-colors"
                     >
                       Book Test Ride
                     </Link>

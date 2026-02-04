@@ -28,7 +28,7 @@ export default function GroodApp() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         {/* Content */}
         <div>
-          <span className="section-label">GROOD APP</span>
+          <span className="section-label">COMING SOON!</span>
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
             Your all-in-one riding companion
           </h2>
@@ -53,7 +53,7 @@ export default function GroodApp() {
           </div>
 
           {/* Store Buttons */}
-          <div className="flex flex-wrap gap-3">
+          {/* <div className="flex flex-wrap gap-3">
             <Link href="#" className="store-btn">
               <svg
                 width="20"
@@ -78,7 +78,7 @@ export default function GroodApp() {
               </svg>
               Play Store
             </Link>
-          </div>
+          </div> */}
         </div>
 
         {/* Phone Mockup */}

@@ -22,13 +22,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/5">
+    <div className="group relative bg-white shadow rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-white/5">
       {/* Badge */}
-      {product.isBestSeller && (
-        <span className="absolute top-4 left-4 z-10 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-          Best Seller
-        </span>
-      )}
 
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -51,16 +46,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           <h3 className="text-lg font-bold text-gray-900 mb-1">
             {product.name}
           </h3>
-          {/* Rating */}
-          <div className="flex items-center gap-1">
-            <div className="flex text-secondary">
-              {"★".repeat(product.rating)}
-              <span className="text-gray-300">
-                {"★".repeat(5 - product.rating)}
-              </span>
-            </div>
-            <span className="text-xs text-gray-500">({product.reviews})</span>
-          </div>
+          {product.description && (
+            <p className="text-sm text-gray-500 line-clamp-2 mb-2">
+              {product.description}
+            </p>
+          )}
         </div>
 
         <div className="flex items-center justify-between mt-4">
@@ -76,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
           <button
             onClick={handleAddToCart}
-            className="bg-black text-white p-3 rounded-full hover:bg-gray-800 transition-colors"
+            className="bg-primary text-white p-3 rounded-full hover:bg-secondary-deep transition-colors"
           >
             <svg
               width="20"

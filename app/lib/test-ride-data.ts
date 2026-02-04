@@ -13,21 +13,22 @@ export interface Bike {
 }
 
 export const stores: Store[] = [
-  {
-    id: "phnom-penh",
-    name: "Grood Phnom Penh Flagship",
-    address: "123 Norodom Blvd, Phnom Penh",
-    image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=80",
-    hours: "9:00 AM - 7:00 PM",
-  },
+  // {
+  //   id: "phnom-penh",
+  //   name: "Grood Phnom Penh Flagship",
+  //   address: "123 Norodom Blvd, Phnom Penh",
+  //   image:
+  //     "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=80",
+  //   hours: "9:00 AM - 7:00 PM",
+  // },
   {
     id: "siem-reap",
     name: "Grood Siem Reap",
     address: "456 Pub Street, Siem Reap",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
     hours: "8:00 AM - 8:00 PM",
   },
-  
 ];
 
 export const bikes: Bike[] = [
@@ -38,10 +39,9 @@ export const bikes: Bike[] = [
   },
   {
     id: "c1",
-    name: "Grood Phnom Penh",
+    name: "Grood Cargo",
     series: "City Series",
   },
-  
 ];
 
 export const timeSlots = [

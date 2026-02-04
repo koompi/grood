@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// Users (admin and customers)
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String?
+  phone     String?
+  address   String?
+  role      String   @default("customer") // admin, customer
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Customer orders
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  status      String      @default("pending") // pending, confirmed, shipped, delivered, cancelled
+
+  // Customer info (for guest checkout or saved from user)
+  firstName String
+  lastName  String
+  email     String?
+  phone     String
+  address   String
+
+  // User relation (optional - null for guest checkout)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  // Payment
+  paymentMethod String
+  subtotal      Float
+  shipping      Float   @default(0)
+  total         Float
+
+  // Relations
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Order line items
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String
+  name      String
+  price     Float
+  quantity  Int
+  image     String?
+  color     String?
+  size      String?
+}
+
+// Test ride bookings
+model TestRideBooking {
+  id     String @id @default(cuid())
+  status String @default("pending") // pending, confirmed, completed, cancelled, no-show
+
+  // Store info
+  storeId   String
+  storeName String
+
+  // Bike info
+  bikeId   String
+  bikeName String
+
+  // Schedule
+  date String
+  time String
+
+  // Customer info
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

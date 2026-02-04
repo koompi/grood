@@ -7,16 +7,24 @@ export default function Warranty() {
     <div className="bg-white min-h-screen">
       <Header />
 
-      <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
-          Warranty Policy
-        </h1>
-        <p className="text-xl text-gray-500 mb-16">
+      {/* Hero Section */}
+      <section className="relative h-[30vh] flex items-center justify-center bg-primary-deep text-white">
+        <div className="text-center px-6">
+          <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
+            Peace of mind
+          </span>
+          <h1 className="text-4xl md:text-6xl font-bold">Warranty Policy</h1>
+        </div>
+      </section>
+
+      {/* Content */}
+      <div className="py-16 px-6 max-w-4xl mx-auto">
+        <p className="text-xl text-gray-500 mb-12">
           We stand behind the quality of every Grood e-bike. Our warranty policy
           is designed to give you peace of mind on every ride.
         </p>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Frame & Fork */}
           <div className="border border-gray-200 rounded-2xl p-8 hover:border-secondary-deep transition-colors">
             <div className="flex items-start justify-between mb-4">
@@ -64,7 +72,7 @@ export default function Warranty() {
           </div>
 
           {/* General Terms */}
-          <div className="bg-gray-50 rounded-2xl p-8 mt-12">
+          <div className="bg-[#fafafa] rounded-2xl p-8 mt-12">
             <h3 className="font-bold text-lg mb-4">Note</h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-600">
               <li>Warranty applies to the original owner only.</li>

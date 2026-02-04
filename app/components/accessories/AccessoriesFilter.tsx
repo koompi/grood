@@ -17,7 +17,7 @@ export default function AccessoriesFilter({
           onClick={() => onSelectCategory(category)}
           className={`px-6 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
             selectedCategory === category
-              ? "bg-black text-white"
+              ? "bg-primary text-white"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
