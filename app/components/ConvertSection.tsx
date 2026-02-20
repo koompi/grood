@@ -9,7 +9,7 @@ export default function ConvertSection() {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="mb-16">
-          <span className="text-secondary-deep text-sm font-bold tracking-widest uppercase block mb-4">
+          <span className="text-primary text-sm font-bold tracking-widest uppercase block mb-4">
             Conversion Kit
           </span>
           <h2 className="text-5xl md:text-6xl font-bold text-black">

@@ -98,8 +98,9 @@ export default function CheckoutPage() {
 
       const data = await response.json();
 
-      // 3. Clear Cart and Redirect
-      clearCart();
+      // 3. Redirect to Baray Payment Page
+      // NOTE: Don't clear cart here - it will be cleared on the success page after payment is confirmed
+      // Clearing here causes empty cart to flash before redirect
 
       // Redirect to Baray Payment Page
       // The API response should return the intent_id, we construct the URL
@@ -111,7 +112,8 @@ export default function CheckoutPage() {
       // So `data._id` should be the intent ID.
 
       if (data._id) {
-        window.location.href = `https://pay.baray.io/${data._id}`;
+        // Open payment page in new tab to avoid any UI flash
+        window.open(`https://pay.baray.io/${data._id}`, "_blank");
       } else {
         console.error("No intent ID returned", data);
         alert(
@@ -161,6 +163,30 @@ export default function CheckoutPage() {
           >
             Continue Shopping
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Show payment in progress state (payment opened in new tab)
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <Header theme="light" />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center pt-24">
+          <div className="w-16 h-16 flex items-center justify-center mb-6">
+            <div className="w-10 h-10 border-4 border-gray-200 border-t-[#059669] rounded-full animate-spin"></div>
+          </div>
+          <h1 className="text-xl font-medium mb-2">Complete Your Payment</h1>
+          <p className="text-sm text-gray-500 mb-6">
+            Payment page opened in a new tab. Please complete your payment there.
+          </p>
+          <button
+            onClick={() => setIsProcessing(false)}
+            className="text-sm text-primary underline hover:no-underline"
+          >
+            Go back to checkout
+          </button>
         </div>
       </div>
     );

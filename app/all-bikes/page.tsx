@@ -72,12 +72,12 @@ export default function AllBikes() {
               {/* Content Side */}
               <div className="w-full lg:w-1/2">
                 <div className="max-w-md mx-auto lg:mx-0">
-                  <span className="text-xs font-bold tracking-widest uppercase mb-2 block text-secondary-deep">
+                  <span className="text-xs font-bold tracking-widest uppercase mb-2 block text-primary">
                     {bike.model}
                   </span>
                   <Link
                     href={`/bikes/${bike.id}`}
-                    className="hover:text-secondary-deep transition-colors"
+                    className="hover:text-primary transition-colors"
                   >
                     <h2 className="text-5xl font-bold mb-4">{bike.name}</h2>
                   </Link>
@@ -111,33 +111,44 @@ export default function AllBikes() {
                   </div>
 
                   <div className="flex gap-4">
-                    <button
-                      onClick={() => handleAddToCart(bike)}
-                      className="bg-primary text-white px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-primary/90 transition-colors flex items-center gap-2"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                    {bike.soldOut ? (
+                      <button
+                        disabled
+                        className="bg-red-500 text-white px-6 lg:px-8 py-4 rounded-full font-semibold cursor-not-allowed opacity-80"
                       >
-                        <path
-                          d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.707 15.293C4.077 15.923 4.523 17 5.414 17H17M17 17C15.895 17 15 17.895 15 19C15 20.105 15.895 21 17 21C18.105 21 19 20.105 19 19C19 17.895 18.105 17 17 17ZM9 19C9 20.105 8.105 21 7 21C5.895 21 5 20.105 5 19C5 17.895 5.895 17 7 17C8.105 17 9 17.895 9 19Z"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      Add to Cart
-                    </button>
-                    <Link
-                      href="/test-ride"
-                      className="bg-transparent text-primary-deep border border-primary-deep px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-primary-deep/10 transition-colors"
-                    >
-                      Book Test Ride
-                    </Link>
+                        Sold Out
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleAddToCart(bike)}
+                          className="bg-secondary-deep text-white px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-secondary-deep/90 transition-colors flex items-center gap-2"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.707 15.293C4.077 15.923 4.523 17 5.414 17H17M17 17C15.895 17 15 17.895 15 19C15 20.105 15.895 21 17 21C18.105 21 19 20.105 19 19C19 17.895 18.105 17 17 17ZM9 19C9 20.105 8.105 21 7 21C5.895 21 5 20.105 5 19C5 17.895 5.895 17 7 17C8.105 17 9 17.895 9 19Z"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          Add to Cart
+                        </button>
+                        <Link
+                          href="/test-ride"
+                          className="bg-transparent text-primary-deep border border-primary-deep px-6 lg:px-8 py-4 rounded-full font-semibold hover:bg-primary-deep/10 transition-colors"
+                        >
+                          Book Test Ride
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

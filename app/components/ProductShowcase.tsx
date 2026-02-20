@@ -14,22 +14,22 @@ const products = [
     soldOut: false,
   },
   {
-    id: "phnom-penh",
-    name: "Phnom Penh",
-    tagline: "URBAN EXPLORER",
-    price: "$600",
-    image: "/images/bikes/grood-green.jpg",
-    href: "/bikes/phnompenh",
-    soldOut: true,
-  },
-  {
     id: "cargo-doek-doek",
     name: "Cargo Doek Doek",
     tagline: "CARGO HAULER",
-    price: "$1,849",
+    price: "$1,780",
     image: "/images/bikes/cargo/background3.JPG",
     href: "/bikes/cargodoekdoek",
     soldOut: false,
+  },
+  {
+    id: "phnom-penh",
+    name: "Phnom Penh",
+    tagline: "URBAN EXPLORER",
+    price: "$690",
+    image: "/images/bikes/phnompenh/background.jpg",
+    href: "/bikes/phnompenh",
+    soldOut: true,
   },
 ];
 
@@ -38,7 +38,7 @@ export default function ProductShowcase() {
     <section id="products" className="bg-[#FAFAFA] py-32 px-6">
       {/* Section Header */}
       <div className="max-w-7xl mx-auto mb-16">
-        <span className="text-secondary-deep text-sm font-bold tracking-widest uppercase block mb-4">
+        <span className="text-primary text-sm font-bold tracking-widest uppercase block mb-4">
           The Collection
         </span>
         <h2 className="text-5xl md:text-6xl lg:text-6xl font-bold text-black">

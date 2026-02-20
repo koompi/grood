@@ -3,11 +3,18 @@
 import Header from "../../components/Header";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { useCart } from "../../context/CartContext";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
+  const { clearCart } = useCart();
+
+  // Clear cart on successful payment
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col">

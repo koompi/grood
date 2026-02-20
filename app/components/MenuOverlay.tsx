@@ -13,7 +13,6 @@ interface MenuOverlayProps {
 const navLinks = [
   { label: "All e-bikes", href: "/all-bikes" },
   { label: "Conversion Kit", href: "/convert" },
-  { label: "Tech Specs", href: "/specs" },
   { label: "Warranty", href: "/warranty" },
   { label: "Accessories", href: "/accessories" },
   { label: "Our Story", href: "/our-story" },
@@ -92,7 +91,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
                 onClick={onClose}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-4/3 bg-[#1a1a1a] rounded-xl overflow-hidden mb-4 border border-white/5 group-hover:border-white/20 transition-colors">
+                <div className={`relative aspect-4/3 bg-[#1a1a1a] rounded-xl overflow-hidden mb-4 border border-white/5 group-hover:border-white/20 transition-colors ${bike.soldOut ? "opacity-60" : ""}`}>
                   <Image
                     src={bike.images[0]}
                     alt={bike.name}
@@ -102,6 +101,11 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
                   {index === 0 && (
                     <span className="absolute top-3 left-3 bg-secondary text-black text-xs font-bold px-2 py-1 rounded">
                       New
+                    </span>
+                  )}
+                  {bike.soldOut && (
+                    <span className="absolute top-3 left-3 bg-secondary text-black text-xs font-bold px-2 py-1 rounded">
+                      Sold Out
                     </span>
                   )}
                 </div>

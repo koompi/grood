@@ -78,7 +78,7 @@ export interface PackageItem {
 export const convertKit: ConvertKit = {
   id: "grood-convert",
   name: "Grood Convertion Kit",
-  tagline: "Transform any bike into an e-bike",
+  tagline: "Your ideal one-stop solution for eBike kits",
   description:
     "The easiest way to electrify your existing bike. Install in 15 minutes, ride electric for years.",
   price: 420,
@@ -98,20 +98,13 @@ export const convertKit: ConvertKit = {
     warranty: "2 years",
   },
   features: [
-    "Installs in 15 min without skills (tools included)",
-    "Compatible with disc and rim brakes",
-    "As efficient as a new e-bike",
-    "2X cheaper than buying an electric bike",
+    "Adaptability: 6 bottle sizes, 5.2-20Ah batteries, 250/350/500W motors with front/rear/dual drive options. Transforms any bike into a smart, high-performance e-bike.",
+    "Discreet design: Sleek, minimalist aesthetics preserve your bike's original look while achieving factory-standard e-bike integration through precision engineering. Ultra-lightweight, modular design (Battery Bottle + Motor)",
   ],
   images: [
     "/images/convert/kit.jpg",
-    "/images/bikes/siemreap/white/body.JPG",
-    "/images/bikes/siemreap/white/spring.JPG",
-    "/images/bikes/siemreap/white/light.JPG",
-    "/images/bikes/siemreap/white/handle.JPG",
-    "/images/bikes/siemreap/white/battery.JPG",
-    "/images/bikes/siemreap/white/assemble.JPG",
-    "/images/bikes/siemreap/white/paddle.JPG",
+    "/images/convert/1.jpg",
+    "/images/convert/2.png",
   ],
 };
 
@@ -268,21 +261,18 @@ export const packageContents: PackageItem[] = [
   { name: "Battery frame mount", description: "Universal fit" },
   { name: "Charger", description: "Fast charging, 2.5hr to full" },
   { name: "Pedal sensor", description: "Clip-on installation" },
-  { name: "Installation tools", description: "Complete tool kit" },
-  { name: "Instruction manual", description: "With QR to video guide" },
 ];
 
 // Technical specifications for accordion
 export const technicalSpecs = [
-  { label: "Motor", value: "350W rear hub motor" },
-  { label: "Range", value: "Up to 40km" },
+  { label: "Motor Power", value: "250W / 350W / 500W" },
+  { label: "Drive Options", value: "Front / Rear / Dual drive" },
+  { label: "Battery Capacity", value: "5.2-20Ah" },
+  { label: "Battery Sizes", value: "6 bottle sizes available" },
   { label: "Top Speed", value: "25 km/h assisted" },
-  { label: "Battery", value: "360Wh removable" },
-  { label: "Charge Time", value: "2.5 hours" },
-  { label: "Kit Weight", value: "~5kg total" },
+  { label: "Design", value: "Ultra-lightweight, modular" },
   { label: "Wheel Sizes", value: '20" / 24" / 26" / 27.5" / 28" / 29"' },
   { label: "Brake Types", value: "Disc and rim compatible" },
-  { label: "Connectivity", value: "Bluetooth (iOS 12+ / Android 6+)" },
   { label: "Warranty", value: "2 years full coverage" },
 ];
 

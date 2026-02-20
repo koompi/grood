@@ -1,186 +1,93 @@
 "use client";
 
-import { useState } from "react";
 import Header from "@/app/components/Header";
-import TestRideStepper from "@/app/components/test-ride/TestRideStepper";
-import StepLocation from "@/app/components/test-ride/StepLocation";
-import StepBikeDate from "@/app/components/test-ride/StepBikeDate";
-import StepDetails, {
-  UserDetails,
-} from "@/app/components/test-ride/StepDetails";
-import { Bike, Store, stores } from "@/app/lib/test-ride-data";
-import Link from "next/link";
-import { trpc } from "@/lib/trpc";
+import Image from "next/image";
+
+const availableModels = [
+  {
+    id: "siemreap",
+    name: "Grood Siem Reap",
+    description: "Urban commuter e-bike with sleek design",
+    image: "/images/bikes/siemreap/white/body.JPG",
+  },
+  {
+    id: "cargodoekdoek",
+    name: "Grood Cargo Doek Doek",
+    description: "Heavy-duty cargo e-bike for deliveries",
+    image: "/images/bikes/cargo/background2.JPG",
+  },
+];
 
 export default function TestRidePage() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [bookingData, setBookingData] = useState<{
-    store: Store | null;
-    bike: Bike | null;
-    date: string;
-    time: string;
-  }>({
-    store: null,
-    bike: null,
-    date: "",
-    time: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [bookingId, setBookingId] = useState<string | null>(null);
-
-  const createBookingMutation = trpc.testRides.create.useMutation({
-    onSuccess: (data) => {
-      setBookingId(data.id);
-      setIsSubmitted(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    },
-  });
-
-  // Step 1: Location
-  const handleSelectStore = (store: Store) => {
-    setBookingData((prev) => ({ ...prev, store }));
-    setCurrentStep(2);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleContinueToDetails = () => {
-    setCurrentStep(3);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Step 3: Details & Submit
-  const handleSubmit = (userDetails: UserDetails) => {
-    if (!bookingData.store || !bookingData.bike) return;
-
-    createBookingMutation.mutate({
-      storeId: bookingData.store.id,
-      storeName: bookingData.store.name,
-      bikeId: bookingData.bike.id,
-      bikeName: bookingData.bike.name,
-      date: bookingData.date,
-      time: bookingData.time,
-      firstName: userDetails.firstName,
-      lastName: userDetails.lastName,
-      email: userDetails.email,
-      phone: userDetails.phone,
-    });
-  };
-
   return (
     <main className="min-h-screen bg-white">
       <Header />
 
-      {isSubmitted ? (
-        <>
-          {/* Hero Section */}
-          <section className="relative h-[30vh] flex items-center justify-center bg-primary-deep text-white">
-            <div className="text-center px-6">
-              <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
-                Booking confirmed
-              </span>
-              <h1 className="text-4xl md:text-6xl font-bold">You're all set!</h1>
-            </div>
-          </section>
+      {/* Hero Section */}
+      <section className="relative h-[30vh] flex items-center justify-center bg-primary-deep text-white">
+        <div className="text-center px-6">
+          <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
+            Experience Grood
+          </span>
+          <h1 className="text-4xl md:text-6xl font-bold">Book a Test Ride</h1>
+        </div>
+      </section>
 
-          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20 6L9 17L4 12"
-                  stroke="#22c55e"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        {/* Available Models */}
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-black mb-4">
+          Available Models
+        </h2>
+        <p className="text-center text-gray-500 mb-12">
+          Experience our e-bikes in person before you buy
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {availableModels.map((model) => (
+            <div
+              key={model.id}
+              className="bg-gray-50 rounded-2xl p-6 text-center"
+            >
+              <div className="relative aspect-4/3 mb-4">
+                <Image
+                  src={model.image}
+                  alt={model.name}
+                  fill
+                  className="object-cover"
                 />
-              </svg>
-            </div>
-            {bookingId && (
-              <p className="text-sm text-gray-500 mb-2">
-                Booking ID: <span className="font-mono font-medium">{bookingId}</span>
-              </p>
-            )}
-            <p className="text-gray-600 max-w-md mb-4">
-              Your test ride has been booked successfully. We've sent a
-              confirmation email to your inbox.
-            </p>
-            {bookingData.store && bookingData.bike && (
-              <div className="bg-gray-50 rounded-lg p-4 mb-8 text-left max-w-md w-full">
-                <h3 className="font-semibold text-gray-900 mb-2">Booking Details</h3>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Bike:</span> {bookingData.bike.name}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Location:</span> {bookingData.store.name}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Date:</span> {bookingData.date}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Time:</span> {bookingData.time}
-                </p>
               </div>
-            )}
-            <Link href="/" className="btn-primary">
-              Return Home
-            </Link>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Hero Section */}
-          <section className="relative h-[30vh] flex items-center justify-center bg-primary-deep text-white">
-            <div className="text-center px-6">
-              <span className="text-secondary font-bold tracking-widest text-sm uppercase mb-4 block">
-                Experience Grood
-              </span>
-              <h1 className="text-4xl md:text-6xl font-bold">Book a Test Ride</h1>
+              <h3 className="text-xl font-bold text-black mb-2">
+                {model.name}
+              </h3>
+              <p className="text-sm text-gray-500">{model.description}</p>
             </div>
-          </section>
+          ))}
+        </div>
 
-          <TestRideStepper currentStep={currentStep} />
-
-          <div className="max-w-7xl mx-auto px-6 py-8">
-            {currentStep === 1 && (
-              <StepLocation stores={stores} onSelectStore={handleSelectStore} />
-            )}
-
-            {currentStep === 2 && (
-              <StepBikeDate
-                selectedBike={bookingData.bike}
-                onSelectBike={(bike) =>
-                  setBookingData((prev) => ({ ...prev, bike }))
-                }
-                selectedDate={bookingData.date}
-                onSelectDate={(date) =>
-                  setBookingData((prev) => ({ ...prev, date }))
-                }
-                selectedTime={bookingData.time}
-                onSelectTime={(time) =>
-                  setBookingData((prev) => ({ ...prev, time }))
-                }
-                onBack={() => setCurrentStep(1)}
-                onContinue={handleContinueToDetails}
-              />
-            )}
-
-            {currentStep === 3 && (
-              <StepDetails
-                bookingData={bookingData}
-                onBack={() => setCurrentStep(2)}
-                onSubmit={handleSubmit}
-                isLoading={createBookingMutation.isPending}
-                error={createBookingMutation.error?.message}
-              />
-            )}
-          </div>
-        </>
-      )}
+        {/* Contact Section */}
+        <div className="text-center">
+          <p className="text-gray-600 mb-6">
+            Contact us to schedule your test ride
+          </p>
+          <a
+            href="https://t.me/Groodebicycle"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-white py-4 px-8 rounded-xl font-bold text-lg hover:bg-primary-deep transition-colors"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="shrink-0"
+            >
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+            </svg>
+            Contact Us on Telegram
+          </a>
+        </div>
+      </div>
     </main>
   );
 }

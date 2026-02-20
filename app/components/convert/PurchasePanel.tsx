@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useCart } from "../../context/CartContext";
 import {
   convertKit,
   wheelSizes,
-  accessories,
   technicalSpecs,
   packageContents,
 } from "../../lib/convert-data";
@@ -81,49 +79,19 @@ function Accordion({
 
 export default function PurchasePanel() {
   const { addToCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState(wheelSizes[2].id); // Default to 26"
-  const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
+  const selectedSize = wheelSizes[2].id; // Default to 26"
   const [quantity, setQuantity] = useState(1);
 
-  // Calculate total price
-  const accessoryTotal = selectedAccessories.reduce((total, accId) => {
-    const acc = accessories.find((a) => a.id === accId);
-    return total + (acc?.price || 0);
-  }, 0);
-  const totalPrice = (convertKit.price + accessoryTotal) * quantity;
-
-  // Toggle accessory selection
-  const toggleAccessory = (accId: string) => {
-    setSelectedAccessories((prev) =>
-      prev.includes(accId)
-        ? prev.filter((id) => id !== accId)
-        : [...prev, accId],
-    );
-  };
-
-  // Handle add to cart
   const handleAddToCart = () => {
-    // Add main kit
-    addToCart({
-      id: `${convertKit.id}-${selectedSize}`,
-      name: `${convertKit.name} (${selectedSize}")`,
-      price: convertKit.price,
-      image: convertKit.images[0],
-      options: { size: `${selectedSize}"` },
-    });
-
-    // Add selected accessories
-    selectedAccessories.forEach((accId) => {
-      const acc = accessories.find((a) => a.id === accId);
-      if (acc) {
-        addToCart({
-          id: acc.id,
-          name: acc.name,
-          price: acc.price,
-          image: acc.image,
-        });
-      }
-    });
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: `${convertKit.id}-${selectedSize}`,
+        name: `${convertKit.name} (${selectedSize}")`,
+        price: convertKit.price,
+        image: convertKit.images[0],
+        options: { size: `${selectedSize}"` },
+      });
+    }
   };
 
   return (
@@ -148,113 +116,37 @@ export default function PurchasePanel() {
         ))}
       </div>
 
-      {/* Wheel size selector */}
-      <div className="mb-4 sm:mb-6">
-        <label className="block text-sm font-semibold text-black mb-2 sm:mb-3">
-          Select Wheel size:
-        </label>
-        <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
-          {wheelSizes.map((size) => (
-            <button
-              key={size.id}
-              onClick={() => setSelectedSize(size.id)}
-              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 font-medium text-sm sm:text-base transition-all ${
-                selectedSize === size.id
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-primary border-gray-300 hover:border-primary"
-              }`}
-            >
-              {size.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Wheel size selector - hidden */}
 
       {/* Price */}
       <div className="mb-4 sm:mb-6">
         <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black">
-          ${totalPrice.toFixed(2)}
-        </div>
-        {accessoryTotal > 0 && (
-          <span className="text-xs sm:text-sm md:text-base font-normal text-gray-500 block mt-1">
-            Kit ${convertKit.price} + Accessories ${accessoryTotal}
-          </span>
-        )}
-      </div>
-
-      {/* Accessory upsells */}
-      <div className="mb-4 sm:mb-6">
-        <label className="block text-sm font-semibold text-black mb-2 sm:mb-3">
-          Add accessories (optional)
-        </label>
-        <div className="space-y-2 sm:space-y-3">
-          {accessories.map((acc) => (
-            <label
-              key={acc.id}
-              className={`flex items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 cursor-pointer transition-all ${
-                selectedAccessories.includes(acc.id)
-                  ? "border-secondary bg-[#FEF9E3]"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={selectedAccessories.includes(acc.id)}
-                onChange={() => toggleAccessory(acc.id)}
-                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-secondary focus:ring-secondary flex-shrink-0"
-              />
-              <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-md sm:rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                <Image
-                  src={acc.image}
-                  alt={acc.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold text-black text-sm sm:text-base truncate">
-                  {acc.name}
-                </div>
-                <div className="text-xs sm:text-sm text-gray-500 line-clamp-1 sm:line-clamp-none">
-                  {acc.description}
-                </div>
-              </div>
-              <div className="font-semibold text-secondary-deep text-sm sm:text-base flex-shrink-0">
-                +{acc.priceFormatted}
-              </div>
-            </label>
-          ))}
+          <span className="text-2xl">From</span> ${convertKit.price.toFixed(2)}
         </div>
       </div>
 
-      {/* Quantity and Add to Cart */}
-      <div className="flex gap-2 sm:gap-4 mb-3 sm:mb-4">
-        {/* Quantity selector */}
-        <div className="flex items-center border-2 border-gray-200 rounded-lg sm:rounded-xl">
-          <button
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="px-3 sm:px-4 py-2.5 sm:py-3 text-lg sm:text-xl font-medium hover:bg-gray-50 transition-colors"
-          >
-            −
-          </button>
-          <span className="px-2 sm:px-4 py-2.5 sm:py-3 text-base sm:text-lg font-semibold min-w-[2.5rem] sm:min-w-[3rem] text-center">
-            {quantity}
-          </span>
-          <button
-            onClick={() => setQuantity(quantity + 1)}
-            className="px-3 sm:px-4 py-2.5 sm:py-3 text-lg sm:text-xl font-medium hover:bg-gray-50 transition-colors"
-          >
-            +
-          </button>
-        </div>
+      {/* Action buttons */}
+      <div className="flex gap-2 sm:gap-3 mb-3 sm:mb-4">
+        {/* Quantity selector and Add to cart */}
 
-        {/* Add to cart button */}
-        <button
-          onClick={handleAddToCart}
-          className="flex-1 bg-primary text-white py-3 sm:py-4 px-4 sm:px-8 rounded-lg sm:rounded-xl font-bold text-sm sm:text-lg hover:bg-primary-deep transition-colors"
+        {/* Contact us button - Primary */}
+        <a
+          href="https://t.me/Groodebicycle"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-bold text-sm sm:text-lg hover:bg-primary-deep transition-colors"
         >
-          ADD TO CART
-        </button>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="shrink-0"
+          >
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+          </svg>
+          CONTACT US
+        </a>
       </div>
 
       {/* Accordions */}

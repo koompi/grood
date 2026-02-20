@@ -3,13 +3,11 @@
 import Header from "../components/Header";
 import ProductGallery from "../components/convert/ProductGallery";
 import PurchasePanel from "../components/convert/PurchasePanel";
-import TrustBadges from "../components/convert/TrustBadges";
-import ReviewsCarousel from "../components/convert/ReviewsCarousel";
-import HowItWorks from "../components/convert/HowItWorks";
-import ProductShowcase from "../components/convert/ProductShowcase";
-import BeforeAfterSlider from "../components/convert/BeforeAfterSlider";
-import FeaturesGrid from "../components/convert/FeaturesGrid";
 import StickyBottomBar from "../components/convert/StickyBottomBar";
+import MinimalisticDesign from "../components/convert/MinimalisticDesign";
+import BottleModels from "../components/convert/BottleModels";
+import KitFamily from "../components/convert/KitFamily";
+import FitsAllBikes from "../components/convert/FitsAllBikes";
 
 export default function ConvertPage() {
   return (
@@ -29,7 +27,7 @@ export default function ConvertPage() {
       </section>
 
       {/* Product Gallery & Purchase Panel */}
-      <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6">
+      <section className="py-8 sm:py-12 md:py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16">
             {/* Left: Product Gallery */}
@@ -45,23 +43,17 @@ export default function ConvertPage() {
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <TrustBadges />
+      {/* Minimalistic Design */}
+      <MinimalisticDesign />
 
-      {/* Reviews Carousel */}
-      {/* <ReviewsCarousel /> */}
+      {/* Bottle Models */}
+      <BottleModels />
 
-      {/* How It Works */}
-      <HowItWorks />
+      {/* Kit Family */}
+      <KitFamily />
 
-      {/* Interactive Product Showcase */}
-      <ProductShowcase />
-
-      {/* Before/After Slider */}
-      <BeforeAfterSlider />
-
-      {/* Features Grid */}
-      <FeaturesGrid />
+      {/* Fits All Bikes */}
+      <FitsAllBikes />
 
       {/* Sticky Bottom Bar (mobile) */}
       <StickyBottomBar />

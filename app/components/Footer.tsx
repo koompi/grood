@@ -9,7 +9,6 @@ const footerLinks = {
     { name: "Grood Cargo Doek Doek", href: "/bikes/cargodoekdoek" },
     { name: "Convertion Kit", href: "/convert" },
     { name: "Accessories", href: "/accessories" },
-    { name: "Specs", href: "/specs" },
   ],
   company: [
     { name: "Our Story", href: "/our-story" },

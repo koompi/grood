@@ -29,7 +29,7 @@ export const accessories: Accessory[] = [
   {
     id: "2",
     name: "Front Rack",
-    price: 89,
+    price: 28,
     rating: 4,
     reviews: 34,
     image: "/images/bikes/siemreap/white/handle.JPG",
@@ -39,7 +39,7 @@ export const accessories: Accessory[] = [
   {
     id: "3",
     name: "Rear Rack for Mixte",
-    price: 79,
+    price: 25,
     rating: 5,
     reviews: 8,
     image: "/images/bikes/siemreap/white/backrack.JPG",
