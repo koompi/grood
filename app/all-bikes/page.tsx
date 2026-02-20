@@ -24,7 +24,7 @@ export default function AllBikes() {
       <Header />
 
       {/* Hero Section */}
-      <section className="bg-primary-deep pt-32 pb-20 px-6 text-center text-white min-h-[40vh] flex flex-col items-center justify-center">
+      <section className="bg-primary-deep pt-32 pb-20 px-6 text-center text-white h-[40vh] flex flex-col items-center justify-center">
         <span className="text-secondary text-sm font-bold tracking-widest uppercase mb-4">
           OUR RIDES
         </span>

@@ -12,7 +12,7 @@ export default function ConvertSection() {
           <span className="text-primary text-sm font-bold tracking-widest uppercase block mb-4">
             Conversion Kit
           </span>
-          <h2 className="text-5xl md:text-6xl font-bold text-black">
+          <h2 className="text-4xl md:text-5xl font-bold text-black">
             Turn any bike into an e-bike
           </h2>
         </div>

@@ -27,13 +27,32 @@ export default function Hero() {
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          <Image
-            src={bike.images[0]}
-            alt={bike.name}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
+          {bike.mobileImage ? (
+            <>
+              <Image
+                src={bike.images[0]}
+                alt={bike.name}
+                fill
+                className="object-cover hidden md:block"
+                priority={index === 0}
+              />
+              <Image
+                src={bike.mobileImage}
+                alt={bike.name}
+                fill
+                className="object-cover block md:hidden"
+                priority={index === 0}
+              />
+            </>
+          ) : (
+            <Image
+              src={bike.images[0]}
+              alt={bike.name}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          )}
           {/* Overlay */}
           <div className="absolute inset-x-0 bottom-0 h-full bg-black/30"></div>
         </div>

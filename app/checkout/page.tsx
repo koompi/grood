@@ -112,8 +112,7 @@ export default function CheckoutPage() {
       // So `data._id` should be the intent ID.
 
       if (data._id) {
-        // Open payment page in new tab to avoid any UI flash
-        window.open(`https://pay.baray.io/${data._id}`, "_blank");
+        window.location.href = `https://pay.baray.io/${data._id}`;
       } else {
         console.error("No intent ID returned", data);
         alert(
@@ -159,7 +158,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/"
-            className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            className="bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
           >
             Continue Shopping
           </Link>
@@ -179,7 +178,8 @@ export default function CheckoutPage() {
           </div>
           <h1 className="text-xl font-medium mb-2">Complete Your Payment</h1>
           <p className="text-sm text-gray-500 mb-6">
-            Payment page opened in a new tab. Please complete your payment there.
+            Payment page opened in a new tab. Please complete your payment
+            there.
           </p>
           <button
             onClick={() => setIsProcessing(false)}

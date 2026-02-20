@@ -182,13 +182,32 @@ export default function BikeDetails() {
       <section className="relative min-h-screen pt-20 flex flex-col items-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src={bike.images[0]}
-            alt={bike.name}
-            fill
-            className="object-cover"
-            priority
-          />
+          {bike.mobileImage ? (
+            <>
+              <Image
+                src={bike.images[0]}
+                alt={bike.name}
+                fill
+                className="object-cover hidden md:block"
+                priority
+              />
+              <Image
+                src={bike.mobileImage}
+                alt={bike.name}
+                fill
+                className="object-cover block md:hidden"
+                priority
+              />
+            </>
+          ) : (
+            <Image
+              src={bike.images[0]}
+              alt={bike.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         </div>
 

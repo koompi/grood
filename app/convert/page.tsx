@@ -15,12 +15,12 @@ export default function ConvertPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] md:h-[40vh] flex items-center justify-center bg-primary-deep text-white overflow-hidden py-12 md:py-0">
+      <section className="relative min-h-[30vh] md:h-[40vh] flex items-center justify-center bg-primary-deep text-white overflow-hidden py-12 md:py-0">
         <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
-          <span className="text-secondary font-bold tracking-widest text-xs sm:text-sm uppercase mb-3 sm:mb-4 block">
+          <span className="text-secondary font-bold tracking-widest text-xs sm:text-sm uppercase block">
             Transform your ride
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold  leading-tight">
             Turn your bike into an e-bike
           </h1>
         </div>

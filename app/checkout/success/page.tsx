@@ -46,7 +46,7 @@ function SuccessContent() {
         )}
         <Link
           href="/"
-          className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          className="bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
         >
           Continue Shopping
         </Link>

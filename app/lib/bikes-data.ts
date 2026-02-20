@@ -57,6 +57,7 @@ export interface Bike {
   soldOut?: boolean;
   specs: BikeSpecs;
   images: string[];
+  mobileImage?: string;
   features: BikeFeature[];
   components: BikeComponent[];
   equipment?: EquipmentSpec;
@@ -71,8 +72,8 @@ export const bikes: Record<string, Bike> = {
     tagline: "Where tradition meets innovation",
     description:
       "Classic design meets modern technology. Elegant, effortless city riding.",
-    price: "$0.05",
-    priceNumber: 0.05,
+    price: "$1,249",
+    priceNumber: 1249,
     color: "Forest Green",
     specs: {
       range: "80km",
@@ -96,6 +97,7 @@ export const bikes: Record<string, Bike> = {
       "/images/bikes/siemreap/white/handle.JPG",
       "/images/bikes/siemreap/white/battery.JPG",
     ],
+    mobileImage: "/images/bikes/siemreap/white/mobile-bg.JPG",
     features: [
       {
         title: "Classic Design",
@@ -192,8 +194,8 @@ export const bikes: Record<string, Bike> = {
     tagline: "Haul more, worry less",
     description:
       "Built for serious cargo. Family trips, business deliveries, or adventure loads—carry it all with ease.",
-    price: "$0.05",
-    priceNumber: 0.05,
+    price: "$1,780",
+    priceNumber: 1780,
     color: "Desert Sand",
     specs: {
       range: "50km",
@@ -210,13 +212,14 @@ export const bikes: Record<string, Bike> = {
       motorLabel: "Motor",
     },
     images: [
-      "/images/bikes/cargo/background1.JPG",
+      "/images/bikes/cargo/background3.JPG",
       "/images/bikes/cargo/gear.JPG",
       "/images/bikes/cargo/cargo.JPG",
       "/images/bikes/cargo/spring.JPG",
       "/images/bikes/cargo/background3.JPG",
       "/images/bikes/cargo/battery.JPG",
     ],
+    mobileImage: "/images/bikes/cargo/mobile-bg.JPG",
     features: [
       {
         title: "Massive Capacity",
@@ -289,8 +292,8 @@ export const bikes: Record<string, Bike> = {
     tagline: "Built for the modern city",
     description:
       "High-performance for the fast-paced urban lifestyle. Power meets precision.",
-    price: "$0.05",
-    priceNumber: 0.05,
+    price: "$690",
+    priceNumber: 690,
     color: "Midnight Black",
     soldOut: true,
     specs: {
